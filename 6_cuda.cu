@@ -1,15 +1,15 @@
 #include <iostream>
 #include <sys/times.h>
 
-__global__ void calcInterval (double * data, const long cntSteps, int size, const double step)
+__global__ void calcInterval (double * data, const long cntSteps, const long cntThreads, const double step)
 {
     double x;
     double sum=0.0;
     int idThread=blockDim.x * blockIdx.x + threadIdx.x;;
-    long local_num= cntSteps / size;
-    long localmax = (idThread+1)*local_num;
-    if (idThread==size-1) localmax=cntSteps;
-    for (long i = idThread*local_num; i < localmax; i ++)
+    long cntStepsPerThread = cntSteps / cntThreads;
+    long localmax = (idThread+1)*cntStepsPerThread;
+    if (idThread==cntThreads-1) localmax=cntSteps;
+    for (long i = idThread*cntStepsPerThread; i < localmax; i ++)
     {
         x = (i + .5)*step;
         sum = sum + 4.0/(1.+ x*x);
@@ -27,13 +27,13 @@ int main(int argc, char** argv)
     const int cntBlocks=256;
     const long cntThreadsTotal=cntThreads*cntBlocks;
     std::cout << "\ncomputing on GPU (" << cntThreadsTotal << ") threads "  << std::endl;
-    double * cpuValues = new double[cntThreadsTotal];
-    double * gpuValues = NULL;
     clock_t clockStart, clockStop;
     tms tmsStart, tmsStop;
     clockStart = times(&tmsStart);
+    double * gpuValues = NULL;
     cudaMalloc((void**) &gpuValues,cntThreadsTotal*sizeof(double));
     calcInterval<<<cntBlocks,cntThreads>>>(gpuValues,cntSteps,cntThreadsTotal,step);
+    double * cpuValues = new double[cntThreadsTotal];
     cudaMemcpy (cpuValues, gpuValues, cntThreadsTotal * sizeof(double), cudaMemcpyDeviceToHost);
     cudaFree   (gpuValues);
     for (long i=0; i<cntThreadsTotal; i++)

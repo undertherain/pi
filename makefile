@@ -19,7 +19,7 @@ All:  1_sequential 2a_threads_mutex 2b_threads_no_mutex 3_openmp  4_tbb 5_mpi 6_
 	mpiCC $^ -o $@
 
 6_cuda: 6_cuda.cu
-	nvcc -arch sm_20 $^ -o $@
+	export GCC_CUDA=1; nvcc -arch sm_20 $^ -o $@
 
-7_opencl_stripped
-	g++ $^ -o $@ -O3
+7_opencl_stripped: 7_opencl_stripped.cpp
+	g++ $^ -o $@ -O3 -lOpenCL

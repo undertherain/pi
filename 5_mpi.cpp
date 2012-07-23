@@ -14,22 +14,19 @@ int main(int argc, char* argv[])
 
     clock_t clockStart, clockStop;
     tms tmsStart, tmsStop;
-
     MPI::Init(argc,argv);
     cntThreads = MPI::COMM_WORLD.Get_size();
     idCurrentThread = MPI::COMM_WORLD.Get_rank();
     MPI::Get_processor_name(nameProcessor,lenNameProcessor);
     std::cout << "Process " << idCurrentThread << " of " << cntThreads << " is on " <<nameProcessor << std::endl;
-
     if (idCurrentThread == 0)
         clockStart = times(&tmsStart);
-
     step = 1./static_cast<double>(cntSteps);
     sum = 0.0;
     long cntStepsPerThread= cntSteps / cntThreads;
     long limitRightCurrentThread = (idCurrentThread+1)*cntStepsPerThread;
-    std::cout << "limitLeftCurrentThread" << idCurrentThread*cntStepsPerThread << std::endl;
-    std::cout << "limitRightCurrentThread" << limitRightCurrentThread << std::endl;
+//  std::cout << "limitLeftCurrentThread" << idCurrentThread*cntStepsPerThread << std::endl;
+//  std::cout << "limitRightCurrentThread" << limitRightCurrentThread << std::endl;
     for (long i = idCurrentThread*cntStepsPerThread; i < limitRightCurrentThread; i ++)
     {
         x = step * (i + 0.5);
@@ -38,7 +35,6 @@ int main(int argc, char* argv[])
     localPi = step * sum;
     double pi=0.;
     MPI::COMM_WORLD.Reduce(&localPi, &pi, 1, MPI_DOUBLE, MPI_SUM, 0);
-
     if (idCurrentThread == 0)
     {
         clockStop = times(&tmsStop);
@@ -47,7 +43,6 @@ int main(int argc, char* argv[])
         double secs= (clockStop - clockStart)/static_cast<double>(sysconf(_SC_CLK_TCK));
         std::cout << secs << " seconds\n" << std::endl;
     }
-
     MPI::Finalize();
     return 0;
 }

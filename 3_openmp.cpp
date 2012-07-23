@@ -1,6 +1,5 @@
 #include <iostream>
 #include <iomanip>
-//#include <ctime>
 #include <sys/times.h>
 #include <cmath>
 #include <omp.h>
@@ -14,9 +13,9 @@ int main(int argc, char** argv)
     double sum=0.0;
     double x;
 
-#pragma omp parallel
+    #pragma omp parallel
     {
-#pragma omp master
+    #pragma omp master
         {
             int cntThreads=omp_get_num_threads();
             std::cout<<"OpenMP. number of threads = "<<cntThreads<<std::endl;
@@ -25,10 +24,9 @@ int main(int argc, char** argv)
 
     clock_t clockStart, clockStop;
     tms tmsStart, tmsStop;
-
-    step = 1./(double)numSteps;
+    step = 1./static_cast<double>(numSteps);
     clockStart = times(&tmsStart);
-#pragma omp parallel for private (x), reduction (+:sum)
+    #pragma omp parallel for private (x), reduction (+:sum)
     for (int i=0; i<numSteps; i++)
     {
         x = (i + .5)*step;
@@ -40,7 +38,6 @@ int main(int argc, char** argv)
     std::cout << "The time to calculate PI was " ;
     double secs= (clockStop - clockStart)/static_cast<double>(sysconf(_SC_CLK_TCK));
     std::cout << secs << " seconds\n" << std::endl;
-
     return 0;
 }
 

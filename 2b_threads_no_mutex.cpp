@@ -35,13 +35,10 @@ int main(int argc, char** argv)
     const double PI25DT = 3.141592653589793238462643;
     pthread_t threads[cntThreads];
     ArgsThread arrArgsThread[cntThreads];
-
     std::cout<<"POSIX threads. number of threads = "<<cntThreads<<std::endl;
-
     clock_t clockStart, clockStop;
     tms tmsStart, tmsStop;
     clockStart = times(&tmsStart);
-
     double step = 1./(double)num_steps;
     long long cntStepsPerThread= num_steps / cntThreads;
     for (unsigned int idThread=0; idThread<cntThreads; idThread++)
