@@ -1,5 +1,5 @@
 CFLAGS = -Wall -fopenmp -03
-All:  1_sequential 2a_threads_mutex 2b_threads_no_mutex 3_openmp  4_tbb 5_mpi 6_cuda 7_opencl_stripped
+All:  1_sequential 2a_threads_mutex 2b_threads_no_mutex 3_openmp  4_tbb 5_mpi 6_cuda 7_opencl_stripped 8_openacc
 
 1_sequential: 1_sequential.cpp
 	g++ $^ -o $@ -O3
@@ -22,4 +22,7 @@ All:  1_sequential 2a_threads_mutex 2b_threads_no_mutex 3_openmp  4_tbb 5_mpi 6_
 	export GCC_CUDA=1; nvcc -arch sm_20 $^ -o $@
 
 7_opencl_stripped: 7_opencl_stripped.cpp
+	g++ $^ -o $@ -O3 -lOpenCL
+
+8_openacc: 8_openacc.cpp
 	g++ $^ -o $@ -O3 -lOpenCL
