@@ -5,6 +5,7 @@
 #include <tbb/blocked_range.h>
 #include <tbb/tbb_stddef.h>
 #include <sys/times.h>
+#include <unistd.h>
 
 class Sum
 {

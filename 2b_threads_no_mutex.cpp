@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <pthread.h>
 #include <sys/times.h>
+#include <unistd.h>
 
 #define cntThreads 4
 

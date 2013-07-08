@@ -3,6 +3,7 @@
 #include <sys/times.h>
 #include <cmath>
 #include <omp.h>
+#include <unistd.h>
 
 int main(int argc, char** argv)
 {

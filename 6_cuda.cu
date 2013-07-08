@@ -1,5 +1,6 @@
 #include <iostream>
 #include <sys/times.h>
+#include <unistd.h>
 
 __global__ void calcInterval (double * data, const long cntSteps, const long cntThreads, const double step)
 {

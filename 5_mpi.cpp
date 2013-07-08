@@ -2,6 +2,7 @@
 #include <cmath>
 #include <mpi.h>
 #include <sys/times.h>
+#include <unistd.h>
 
 int main(int argc, char* argv[])
 {

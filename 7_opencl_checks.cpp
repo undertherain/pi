@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdexcept>
 #include "7_clerrors.hpp"
+#include <unistd.h>
 
 int main(int argc, char * argv[]) {
 	size_t cntThreads=256;

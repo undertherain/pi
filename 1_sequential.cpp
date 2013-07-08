@@ -2,6 +2,8 @@
 #include <iomanip>
 #include <sys/times.h>
 #include <cmath>
+#include <unistd.h>
+//ticksPerSecond=sysconf(_SC_CLK_TCK)
 
 int main(int argc, char** argv)
 {
