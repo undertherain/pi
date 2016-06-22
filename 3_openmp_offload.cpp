@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     tms tmsStart, tmsStop;
     step = 1./static_cast<double>(numSteps);
 
-	#pragma offload target(mic:MIC_DEV) inout(sum)  in(step) // first call to device might take some time
+	#pragma offload target(mic:MIC_DEV) // first call to device might take some time
 	{
 		#pragma omp parallel
 		{

@@ -1,5 +1,5 @@
-CFLAGS = -Wall -fopenmp -03
-CPPFLAGS :=  -xhost  -openmp
+CFLAGS = -Wall -fopenmp -O3
+CPPFLAGS :=  -xhost  -openmp -Wall -O3
 #CPPFLAGS :=  -mmic  -openmp
 
 All:  1_sequential 2a_threads_mutex 2b_threads_no_mutex 3_openmp  4_tbb 5_mpi 6_cuda 7_opencl_stripped 8_openacc
